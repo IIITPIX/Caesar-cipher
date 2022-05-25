@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static final List<Character> ALPHABET = Arrays.asList('а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з',
-            'и', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ',
-            'ъ', 'ы', 'ь', 'э', 'я', '.', ',', '«', '»', '"', '\'', ':', '!', '?', ' ');
+    private static final List<Character> ALPHABET = Arrays.asList('а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з',
+            'и', 'й','к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ',
+            'ъ', 'ы', 'ь', 'э', 'ю','я', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З',
+            'И', 'Й','К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ',
+            'Ъ', 'Ы', 'Ь', 'Э', 'Ю','Я', '.', ',', '«', '»', '"', '\'', ':', '!', '?', ' ');
 
-    public static void main(String[] args) {
-        //encryptFileToFile("C:\\test\\Example.txt", "C:\\test\\ciphered.txt", -400);
+    public static void main(String[] args) throws Exception{
+        encryptFileToFile("C:\\test\\Example.txt", "C:\\test\\ciphered.txt", -41);
+        //decipher("C:\\test\\ciphered.txt", "C:\\test\\unCiphered.txt", 2);
     }
 
     public static void encryptFileToFile(String fromFile, String toFile, int key) throws Exception {
@@ -31,7 +34,7 @@ public class Main {
                 if ((indexUnCipherChar + key) >= ALPHABET.size()) {
                     cipherChar = ALPHABET.get((indexUnCipherChar + key) % ALPHABET.size());
                 } else if ((indexUnCipherChar + key) < 0) {
-                    cipherChar = ALPHABET.get(((key% ALPHABET.size())+40)%40);
+                    cipherChar = ALPHABET.get((((key+indexUnCipherChar)% ALPHABET.size())+40)%40);
                 } else {
                     cipherChar = ALPHABET.get(indexUnCipherChar + key);
                 }
@@ -44,7 +47,13 @@ public class Main {
         }
         bufferedWriter.close();
     }
-    public static void decipher(String fromFile, String toFile, int key) {
-
+    public static void decipher(String fromFile, String toFile, int key) throws Exception{
+        int currentKey;
+        if (key > 0) {
+            currentKey = -key;
+        } else {
+            currentKey = Math.abs(key);
+        }
+        encryptFileToFile(fromFile, toFile, currentKey);
     }
 }
