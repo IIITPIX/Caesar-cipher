@@ -6,9 +6,12 @@ import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Validate {
+
     public static String validatePath(Scanner in, PrintStream out, String message) {
+
         out.println(message);
         String fileName = in.nextLine();
+
         try {
             Path filePath = Path.of(fileName);
             if (Files.isDirectory(filePath)) {
@@ -22,10 +25,12 @@ public class Validate {
             System.err.println("Что-то пошло не так " + e);
             System.exit(0);
         }
+
         return fileName;
     }
 
     public static boolean isItDig(String dig) {
+
         try {
             Integer.parseInt(dig);
             return true;
@@ -34,5 +39,6 @@ public class Validate {
             System.exit(0);
             return false;
         }
+
     }
 }

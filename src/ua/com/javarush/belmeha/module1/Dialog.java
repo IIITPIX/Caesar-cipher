@@ -3,6 +3,9 @@ package ua.com.javarush.belmeha.module1;
 import java.util.Scanner;
 
 public class Dialog {
+    private static final String DIALOG_1 = "1";
+    private static final String DIALOG_2 = "2";
+    private static final String DIALOG_3 = "3";
 
     public static void greeting() {
         System.out.println("Приветсвутю вас в программе \"Шифт Цезаря!\"");
@@ -12,88 +15,44 @@ public class Dialog {
     }
 
     public static void selectAction(String selectDig) {
-        Scanner s = new Scanner(System.in);
-        String fileFrom = null;
-        String fileTo = null;
-        String key = null;
-        if ("1".equals(selectDig)) {
-            try {
-                fileFrom = Validate.validatePath(s, System.out, "Введите путь к файлу, который хотите зашифровать:");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        Scanner scanner = new Scanner(System.in);
+        String fileFrom;
+        String fileTo;
+        String key;
+        if (DIALOG_1.equals(selectDig)) {
 
-            try {
-                fileTo = Validate.validatePath(s, System.out, "Введите путь к файлу, куда вы хотите сохранить зашифрованный файл:");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            fileFrom = Validate.validatePath(scanner, System.out, "Введите путь к файлу, который хотите зашифровать:");
+            fileTo = Validate.validatePath(scanner, System.out, "Введите путь к файлу, куда вы хотите сохранить зашифрованный файл:");
+            System.out.println("Введите ключ");
+            key = scanner.nextLine();
+            Validate.isItDig(key);
 
-            try {
-                System.out.println("Введите ключ");
-                key = s.nextLine();
-                Validate.isItDig(key);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                Main.encryptFileToFile(fileFrom, fileTo, Integer.parseInt(key));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Main.encryptFileToFile(fileFrom, fileTo, Integer.parseInt(key));
             System.out.println("Файл успешно зашифрован в: " + fileTo);
 
         }
 
-        if ("2".equals(selectDig)) {
-            try {
-                fileFrom = Validate.validatePath(s, System.out, "Введите путь к файлу, который хотите расшифровать:");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if (DIALOG_2.equals(selectDig)) {
 
-            try {
-                fileTo = Validate.validatePath(s, System.out, "Введите путь к файлу, куда вы хотите сохранить расшифрованный файл:");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            fileFrom = Validate.validatePath(scanner, System.out, "Введите путь к файлу, который хотите расшифровать:");
+            fileTo = Validate.validatePath(scanner, System.out, "Введите путь к файлу, куда вы хотите сохранить расшифрованный файл:");
+            System.out.println("Введите ключ");
+            key = scanner.nextLine();
+            Validate.isItDig(key);
 
-            try {
-                System.out.println("Введите ключ");
-                key = s.nextLine();
-                Validate.isItDig(key);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                Main.decipher(fileFrom, fileTo, Integer.parseInt(key));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Main.decipher(fileFrom, fileTo, Integer.parseInt(key));
             System.out.println("Файл успешно расшифрован в: " + fileTo);
 
         }
 
-        if ("3".equals(selectDig)) {
-            try {
-                fileFrom = Validate.validatePath(s, System.out, "Введите путь к файлу, который хотите расшифровать:");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if (DIALOG_3.equals(selectDig)) {
 
-            try {
-                fileTo = Validate.validatePath(s, System.out, "Введите путь к файлу, куда вы хотите сохранить расшифрованный файл:");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            fileFrom = Validate.validatePath(scanner, System.out, "Введите путь к файлу, который хотите расшифровать:");
+            fileTo = Validate.validatePath(scanner, System.out, "Введите путь к файлу, куда вы хотите сохранить расшифрованный файл:");
 
-            try {
-                int keyFromBruteForce = BruteForce.findKeyForBruteForce(fileFrom);
-                System.out.println("Скорее всего ключ: "+keyFromBruteForce);
-                Main.decipher(fileFrom, fileTo, keyFromBruteForce);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            int keyFromBruteForce = BruteForce.findKeyForBruteForce(fileFrom);
+            System.out.println("Скорее всего ключ: " + keyFromBruteForce);
+            Main.decipher(fileFrom, fileTo, keyFromBruteForce);
             System.out.println("Файл расшифрован в: " + fileTo);
 
         }

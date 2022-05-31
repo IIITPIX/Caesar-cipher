@@ -8,36 +8,40 @@ import java.util.HashMap;
 
 public class BruteForce {
 
-    public static int findKeyForBruteForce(String fileForBrute){
+    public static int findKeyForBruteForce(String fileForBrute) {
 
         HashMap<Character, Integer> hashMap = null;
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileForBrute));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileForBrute))){
             hashMap = new HashMap<>();
             int currentChar;
 
             while ((currentChar = bufferedReader.read()) != -1) {
-                Character character = (char)currentChar;
-                if (!hashMap.containsKey(character)){
+                Character character = (char) currentChar;
+                if (!hashMap.containsKey(character)) {
                     hashMap.put(character, 1);
                 } else {
                     int countChar = hashMap.get(character);
-                    hashMap.put(character, countChar+1);
+                    hashMap.put(character, countChar + 1);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        int maxValue = Collections.max(hashMap.values());
+        int maxValue = 0;
+        try {
+            maxValue = Collections.max(hashMap.values());
+        } catch (Exception e) {
+            System.err.println("Что-то пошло не так " + e);
+        }
         char maxValueChar = 0;
-        for (Character key: hashMap.keySet()) {
+        for (Character key : hashMap.keySet()) {
             if (hashMap.get(key) == maxValue) {
                 maxValueChar = key;
             }
         }
         int indexEncryptedSpace = Main.ALPHABET.indexOf(maxValueChar);
         int indexDecipheredSpace = Main.ALPHABET.indexOf(' ');
-        return ((Main.ALPHABET_SIZE+indexEncryptedSpace)-indexDecipheredSpace)%Main.ALPHABET_SIZE;
+        return ((Main.ALPHABET_SIZE + indexEncryptedSpace) - indexDecipheredSpace) % Main.ALPHABET_SIZE;
     }
 
 }
